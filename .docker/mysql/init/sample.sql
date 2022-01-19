@@ -1,0 +1,10 @@
+DROP DATABASE IF EXISTS sample_db;
+CREATE DATABASE sample_db;
+USE sample_db;
+
+CREATE TABLE users (
+id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+name TEXT NOT NULL
+)DEFAULT CHARACTER SET=utf8;
+
+INSERT INTO users (name) VALUES ("太郎"),("花子"),("令和");

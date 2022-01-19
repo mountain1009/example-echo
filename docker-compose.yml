@@ -1,0 +1,29 @@
+version: "3.8"
+
+services:
+  db:
+    build:
+      context: ./.docker/mysql
+      dockerfile: Dockerfile
+    ports:
+      - 3306:3306
+    volumes:
+      - db-data:/var/lib/mysql
+      - ./init/:/docker-entrypoint-initdb.d/
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --default-authentication-plugin=mysql_native_password
+  app:
+    build:
+      context: ./
+      dockerfile: .docker/golang/Dockerfile
+    tty: true
+    stdin_open: true
+    volumes:
+      - ./api:/go/src/github.com/mountain1009/example-echo
+    ports:
+      - 8080:8080
+    depends_on:
+      - db
+volumes:
+  db-data:
